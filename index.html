@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" >
+	<title>testdriver</title>
+	<link rel="stylesheet" href="http://pivotal.github.com/jasmine/lib/jasmine.css"/>
+	<script src="http://pivotal.github.com/jasmine/lib/jasmine.js"></script>
+	<script src="http://pivotal.github.com/jasmine/lib/jasmine-html.js"></script>
+	<script src="insQ.js"></script>
+	<script src="spec/test.js"></script>
+</head>
+<body>
+
+	<script>
+	var jasmineEnv = jasmine.getEnv();
+	jasmineEnv.updateInterval = 250;
+	var htmlReporter = new jasmine.HtmlReporter();
+	jasmineEnv.addReporter(htmlReporter);
+	jasmineEnv.execute();
+	</script>
+</body>
+</html>

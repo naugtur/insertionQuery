@@ -1,4 +1,5 @@
-
+//insertionQuery by naugtur
+//MIT license
 var insertionQ = (function(){
 
     var sequence=100,
@@ -23,11 +24,8 @@ var insertionQ = (function(){
         }
     }
 
-
     return function(selector,callback){
-
         if(isAnimationSupported && selector.match(/[^{}]/)){
-
             var styleAnimation,animationName = 'insQ_'+(sequence++);
 
             var eventHandler = function(event) {
@@ -55,6 +53,5 @@ var insertionQ = (function(){
         } else {
             return false;
         }
-
     }
 })();

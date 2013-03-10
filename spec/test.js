@@ -69,7 +69,7 @@ describe("Insertion Query lib", function() {
             runs(function() {
                 document.body.appendChild(document.createElement('q'));
             });
-            waits(10);
+            waits(200);
             runs(function() {
                 insertionQ('q',callback);
             });

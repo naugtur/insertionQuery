@@ -16,7 +16,10 @@
 	jasmineEnv.updateInterval = 250;
 	var htmlReporter = new jasmine.HtmlReporter();
 	jasmineEnv.addReporter(htmlReporter);
-	jasmineEnv.execute();
+
+	setTimeout(function(){
+		jasmineEnv.execute();
+	},1000)
 	</script>
 </body>
 </html>

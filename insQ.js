@@ -49,7 +49,7 @@ var insertionQ = (function(){
                 document.addEventListener('animationstart', eventHandler, false);
                 document.addEventListener('MSAnimationStart', eventHandler, false);
                 document.addEventListener('webkitAnimationStart', eventHandler, false);
-            }, 10); //starts listening later to skip elements found on startup
+            }, 20); //starts listening later to skip elements found on startup. this might need tweaking
 
             return true;
         } else {

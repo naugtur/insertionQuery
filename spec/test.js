@@ -10,7 +10,7 @@ describe("Insertion Query lib", function() {
             runs(function() {
                 document.body.appendChild(document.createElement('blockquote'));
             });
-            waits(10); //just to be sure
+            waits(200); //just to be sure
             runs(function() {
                 expect(callback.calls.length).toEqual(1);
             });
@@ -34,7 +34,7 @@ describe("Insertion Query lib", function() {
                 el.id="b";
                 document.body.appendChild(el);
             });
-            waits(10); //just to be sure
+            waits(200); //just to be sure
             runs(function() {
                 expect(callback1.calls.length).toEqual(1);
                 expect(callback2.calls.length).toEqual(1);
@@ -57,7 +57,7 @@ describe("Insertion Query lib", function() {
             runs(function() {
                 el.setAttribute('class','someFunnyClass');
             });
-            waits(10);
+            waits(200);
             runs(function() {
                 expect(callback.calls.length).toEqual(1);
             });
@@ -77,30 +77,33 @@ describe("Insertion Query lib", function() {
             runs(function() {
                 document.body.appendChild(document.createElement('q'));
             });
-            waits(10);
+            waits(200);
             runs(function() {
                 expect(callback.calls.length).toEqual(1);
             });
 
         });
-        it('should react to old elements getting displayed just now', function() {
+        it('should NOT react to old elements getting displayed just now (reacts in webkit)', function() {
             var callback = jasmine.createSpy('callback'),
                 el=document.createElement('q');
             runs(function() {
                 el.style.display='none';
                 document.body.appendChild(el);
             });
-            waits(10);
+            waits(200);
             runs(function() {
-                insertionQ('q',callback);
+                insertionQ('q',function(){
+                    console.log('call');
+                    callback();
+                });
             });
             waits(200);
             runs(function() {
                 el.style.display='inline';
             });
-            waits(10);
+            waits(400);
             runs(function() {
-                expect(callback.calls.length).toEqual(1);
+                expect(callback.calls.length).toEqual(0);
             });
 
         });

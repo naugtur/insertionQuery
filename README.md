@@ -19,3 +19,4 @@ Technical notes:
  - the implementation is based on **CSS animations NOT DOM events**. So no consequences for performance.
  - because it's done with CSS you get the selectors for free, no javascript work is done matching that.
  - to make sure you won't get calls from elements that are there, the callbacks start working some miliseconds after you call insertionQ, so if you add elements in the same function call that you initiated insertionQuery, you won't get callbacks. 
+ - it actually takes a few miliseconds before the callback runs after element is added (I measured upto 30ms in FireFox)

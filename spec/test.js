@@ -108,4 +108,22 @@ describe("Insertion Query lib", function() {
 
         });
 
+        it('should pass the newly added node to the callback function', function() {
+            var el=document.createElement('q'),resultNode;
+            runs(function() {
+                insertionQ('q',function(node){
+                    resultNode=node;
+                });
+            });
+            waits(200);
+            runs(function() {
+                document.body.appendChild(el);
+            });
+            waits(400);
+            runs(function() {
+                expect(resultNode).toBe(el);
+            });
+
+        });
+
     });

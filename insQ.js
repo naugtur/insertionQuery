@@ -30,7 +30,7 @@ var insertionQ = (function(){
 
             var eventHandler = function(event) {
                 if (event.animationName === animationName || event[animationstring] === animationName) {
-                    callback(event);
+                    callback(event.target);
                 }
             }
 

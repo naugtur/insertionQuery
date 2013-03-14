@@ -6,6 +6,8 @@
 	<link rel="stylesheet" href="http://pivotal.github.com/jasmine/lib/jasmine.css"/>
 	<script src="http://pivotal.github.com/jasmine/lib/jasmine.js"></script>
 	<script src="http://pivotal.github.com/jasmine/lib/jasmine-html.js"></script>
+	<script src="https://raw.github.com/larrymyers/jasmine-reporters/master/src/jasmine.tap_reporter.js"></script>
+	
 	<script src="insQ.js"></script>
 	<script src="spec/test.js"></script>
 </head>
@@ -16,6 +18,8 @@
 	jasmineEnv.updateInterval = 250;
 	var htmlReporter = new jasmine.HtmlReporter();
 	jasmineEnv.addReporter(htmlReporter);
+
+	jasmineEnv.addReporter(new jasmine.TapReporter());
 
 	setTimeout(function(){
 		jasmineEnv.execute();

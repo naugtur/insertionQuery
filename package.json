@@ -12,12 +12,7 @@
       "iphone": [ 6 ],
       "ipad": [ 6 ]
       },
-      "scripts": [ 
-      "http://pivotal.github.com/jasmine/lib/jasmine.js", 
-      "https://raw.github.com/larrymyers/jasmine-reporters/master/src/jasmine.tap_reporter.js", 
-      "vendor/test/robot_test.js",
-      "insQ.js",
-      "spec/test.js",
+      "files": [ 
       "spec/taprunner.js"
       ]
       },

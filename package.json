@@ -11,10 +11,17 @@
       "safari": [ 5.1, 6 ],
       "iphone": [ 6 ],
       "ipad": [ 6 ]
-    },
-    "files": "index.html"
-  },
-  "author": "naugtur <naugtur@gmail.com>",
-  "license": "MIT",
-  "readmeFilename": "README.md"
-}
+      },
+      "scripts": [ 
+      "http://pivotal.github.com/jasmine/lib/jasmine.js", 
+      "https://raw.github.com/larrymyers/jasmine-reporters/master/src/jasmine.tap_reporter.js", 
+      "vendor/test/robot_test.js",
+      "insQ.js",
+      "spec/test.js",
+      "spec/taprunner.js"
+      ]
+      },
+      "author": "naugtur <naugtur@gmail.com>",
+      "license": "MIT",
+      "readmeFilename": "README.md",
+    }

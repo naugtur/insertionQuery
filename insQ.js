@@ -44,9 +44,10 @@ var insertionQ = (function(){
             document.head.appendChild(styleAnimation);
 
             setTimeout(function() {
-                document.addEventListener('animationstart', eventHandler, false);
-                document.addEventListener('MSAnimationStart', eventHandler, false);
-                document.addEventListener('webkitAnimationStart', eventHandler, false);
+                //document.addEventListener('animationstart', eventHandler, false);
+                //document.addEventListener('MSAnimationStart', eventHandler, false);
+                //document.addEventListener('webkitAnimationStart', eventHandler, false);
+                document.addEventListener(animationstring, eventHandler, false);
             }, 20); //starts listening later to skip elements found on startup. this might need tweaking
 
             return true;

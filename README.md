@@ -21,7 +21,7 @@ Changing an existing element to match the selector won't run the callback. Showi
 
 Runs the callback with an array of newly inserted nodes that contain element(s) matching the selector. For multiple nodes matching the selector, if they were inserted in a wrapper, the wrapper will be returned in the array. The array will contain the smallest set of nodes containing all the changes that happened to document's body.
 
-Technical notes:
+## Technical notes:
 
  - run after DOM is ready or you'll get all the callbacks from HTML elements there. (thank you capt. Obvious)
  - the implementation is based on **CSS animations NOT DOM events**. So no consequences for performance.

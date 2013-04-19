@@ -4,7 +4,7 @@ describe("Insertion Query lib", function() {
         it('should react to an insertion', function() {
             var callback = jasmine.createSpy('callback');
             runs(function() {
-                insertionQ('blockquote',callback);
+                insertionQ('blockquote').every(callback);
             });
             waits(200);
             runs(function() {
@@ -22,8 +22,8 @@ describe("Insertion Query lib", function() {
             var callback1 = jasmine.createSpy('callback'),
                 callback2 = jasmine.createSpy('callback');
             runs(function() {
-                insertionQ('#a',callback1);
-                insertionQ('#b',callback2);
+                insertionQ('#a').every(callback1);
+                insertionQ('#b').every(callback2);
             });
             waits(200);
             runs(function() {
@@ -46,7 +46,7 @@ describe("Insertion Query lib", function() {
             var callback = jasmine.createSpy('callback'),
                 el;
             runs(function() {
-                insertionQ('q.someFunnyClass',callback);
+                insertionQ('q.someFunnyClass').every(callback);
             });
             waits(200);
             runs(function() {
@@ -71,7 +71,7 @@ describe("Insertion Query lib", function() {
             });
             waits(200);
             runs(function() {
-                insertionQ('q',callback);
+                insertionQ('q').every(callback);
             });
             waits(200);
             runs(function() {
@@ -83,7 +83,7 @@ describe("Insertion Query lib", function() {
             });
 
         });
-        it('should NOT react to old elements getting displayed just now (reacts in webkit)', function() {
+        it('should NOT react to old elements getting displayed just now (happened in webkit)', function() {
             var callback = jasmine.createSpy('callback'),
                 el=document.createElement('q');
             runs(function() {
@@ -92,7 +92,7 @@ describe("Insertion Query lib", function() {
             });
             waits(200);
             runs(function() {
-                insertionQ('q',function(){
+                insertionQ('q').every(function(){
                     console.log('call');
                     callback();
                 });
@@ -111,7 +111,7 @@ describe("Insertion Query lib", function() {
         it('should pass the newly added node to the callback function', function() {
             var el=document.createElement('q'),resultNode;
             runs(function() {
-                insertionQ('q',function(node){
+                insertionQ('q').every(function(node){
                     resultNode=node;
                 });
             });
@@ -122,6 +122,36 @@ describe("Insertion Query lib", function() {
             waits(400);
             runs(function() {
                 expect(resultNode).toBe(el);
+            });
+
+        });
+
+
+        it('should call one summary callback for two nodes with common parent', function() {
+            var nodeArray,
+            callback1 = jasmine.createSpy('callback1');
+            runs(function() {
+                insertionQ('q').summary(function(a){
+                    nodeArray = a;
+                    callback1();
+                });
+            });
+            waits(200);
+            runs(function() {
+                var wrap = document.createElement('div'),
+                el=document.createElement('q');
+                el.id="z";
+                wrap.appendChild(el);
+                el=document.createElement('q');
+                el.id="x";
+                wrap.appendChild(el);
+                document.body.appendChild(wrap);
+            });
+            waits(500); //just to be sure
+            runs(function() {
+                expect(callback1.calls.length).toEqual(1);
+                expect(nodeArray.length).toEqual(1);
+                expect(nodeArray[0].nodeName).toBe('DIV');
             });
 
         });

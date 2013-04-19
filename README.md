@@ -3,15 +3,23 @@ insertionQuery
 
 Non-dom-event way to catch nodes showing up. And it uses selectors.
 
-## Usage
+## Basic usage
 
-	insertionQ('selector',function(element){
+	insertionQ('selector').every(function(element){
 		//callback
 	});
 
-Runs the callback whenever an element matching the selector starts to exist. This means it handles DOM insertions of new nodes and changes that make old nodes start to match the selector. 
+Runs the callback whenever an element matching the selector is created in the document. This means it handles DOM insertions of new nodes. 
 
-It is also triggered by nodes that are being displayed for the first time.
+Changing an existing element to match the selector won't run the callback. Showing an element that was not displayed before won't run the callback. You can disable preventing those situations by passing a second argument `insertionQ('selector',true)`, but it's not recommended.
+
+## Insertion summary
+
+    insertionQ('selector').summary(function(arrayOfInsertedNodes){
+		//callback
+	});
+
+Runs the callback with an array of newly inserted nodes that contain element(s) matching the selector. For multiple nodes matching the selector, if they were inserted in a wrapper, the wrapper will be returned in the array. The array will contain the smallest set of nodes containing all the changes that happened to document's body.
 
 Technical notes:
 

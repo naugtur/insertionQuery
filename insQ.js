@@ -24,6 +24,7 @@ var insertionQ = (function(){
             }
         }
     }
+    
 
     function listen(selector,callback){
         var styleAnimation,animationName = 'insQ_'+(sequence++);
@@ -52,6 +53,14 @@ var insertionQ = (function(){
                 //event support is not consistent with DOM prefixes
             }, 20); //starts listening later to skip elements found on startup. this might need tweaking
 
+            return {
+                destroy: function() {
+                    document.head.removeChild(styleAnimation);
+                    document.removeEventListener('animationstart', eventHandler);
+                    document.removeEventListener('MSAnimationStart', eventHandler);
+                    document.removeEventListener('webkitAnimationStart', eventHandler);
+                }
+            };
     }
 
 
@@ -94,7 +103,7 @@ var insertionQ = (function(){
             };
         })();
 
-        listen(selector,function(el) {
+        return listen(selector,function(el) {
             if (isTagged(el)) {
                 return;
             }
@@ -115,10 +124,10 @@ var insertionQ = (function(){
             }
             return {
                 every:function(callback){
-                    listen(selector,callback);
+                    return listen(selector,callback);
                 },
                 summary:function(callback){
-                    catchInsertions(selector,callback);
+                    return catchInsertions(selector,callback);
                 }
             };
         } else {

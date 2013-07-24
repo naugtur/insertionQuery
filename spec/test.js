@@ -155,5 +155,21 @@ describe("Insertion Query lib", function() {
             });
 
         });
+        
+        
+        it('should unbind everything when destroyed', function() {
+            var callback = jasmine.createSpy('callback');
+            runs(function() {
+                insertionQ('q').every(callback).destroy();
+            });
+            waits(20);
+            runs(function() {
+                document.body.appendChild(document.createElement('q'));
+            });
+            waits(200);
+            runs(function() {
+                expect(callback).not.toHaveBeenCalled();
+            });
+        });
 
     });

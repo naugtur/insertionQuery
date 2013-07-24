@@ -46,7 +46,7 @@ var insertionQ = (function(){
 
             document.head.appendChild(styleAnimation);
 
-            setTimeout(function() {
+            var bindAnimationLater = setTimeout(function() {
                 document.addEventListener('animationstart', eventHandler, false);
                 document.addEventListener('MSAnimationStart', eventHandler, false);
                 document.addEventListener('webkitAnimationStart', eventHandler, false);
@@ -55,7 +55,11 @@ var insertionQ = (function(){
 
             return {
                 destroy: function() {
-                    document.head.removeChild(styleAnimation);
+                    clearTimeout(bindAnimationLater);
+                    if(styleAnimation){
+                        document.head.removeChild(styleAnimation);
+                        styleAnimation=null;
+                    }
                     document.removeEventListener('animationstart', eventHandler);
                     document.removeEventListener('MSAnimationStart', eventHandler);
                     document.removeEventListener('webkitAnimationStart', eventHandler);

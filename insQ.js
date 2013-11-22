@@ -38,8 +38,8 @@ var insertionQ = (function(){
             }
 
             styleAnimation = document.createElement('style');
-            styleAnimation.innerHTML = '@keyframes '+animationName+' {  from {  clip: rect(1px, auto, auto, auto);  } to {  clip: rect(0px, auto, auto, auto); }  }' +
-            "\n" + '@'+keyframeprefix+'keyframes '+animationName+' {  from {  clip: rect(1px, auto, auto, auto);  } to {  clip: rect(0px, auto, auto, auto); }  }' +
+            styleAnimation.innerHTML = '@keyframes '+animationName+' {  from {  opacity:0.99;  } to { opacity:1; }  }' +
+            "\n" + '@'+keyframeprefix+'keyframes '+animationName+' {  from {  opacity:0.99;  } to {  opacity:1; }  }' +
             "\n" + selector + ' { animation-duration: 0.001s; animation-name: '+animationName+'; ' +
             keyframeprefix+'animation-duration: 0.001s; '+keyframeprefix+'animation-name: '+animationName+'; ' +
             ' } ';

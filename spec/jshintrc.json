@@ -1,5 +1,24 @@
 {
+    "camelcase": true,
+    "curly": true,
+    "eqeqeq":true,
+    "forin":true,
+    "immed":true,
+    "indent":4,
+    "latedef":true,
+    "noarg":true,
+    "undef":true,
+    "unused":false,
+    "strict":true, 
+    "maxparams":10,
+    "maxdepth":10,
+    "maxstatements":20,
+    
     "es5": true,
+    "eqnull":true,
+    "lastsemic":true,
+    "scripturl":true,
+    
     "globals": {
         "window": false,
         "document": false,

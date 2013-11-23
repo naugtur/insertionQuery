@@ -1,21 +1,23 @@
+var insertionQ = (function () {
+    "use strict";
 
-var insertionQ = (function(){
+    var sequence = 100,
+        useTags,
+        isAnimationSupported = false,
+        animationstring = 'animationName',
+        keyframeprefix = '',
+        domPrefixes = 'Webkit Moz O ms Khtml'.split(' '),
+        pfx = '',
+        elm = document.createElement('div');
 
-    var sequence=100,
-    useTags,
-    isAnimationSupported = false,
-    animationstring = 'animationName',
-    keyframeprefix = '',
-    domPrefixes = 'Webkit Moz O ms Khtml'.split(' '),
-    pfx  = '',
-    elm = document.createElement('div');
+    if (elm.style.animationName) {
+        isAnimationSupported = true;
+    }
 
-    if( elm.style.animationName ) { isAnimationSupported = true; }   
-
-    if( isAnimationSupported === false ) {
-        for( var i = 0; i < domPrefixes.length; i++ ) {
-            if( elm.style[ domPrefixes[i] + 'AnimationName' ] !== undefined ) {
-                pfx = domPrefixes[ i ];
+    if (isAnimationSupported === false) {
+        for (var i = 0; i < domPrefixes.length; i++) {
+            if (elm.style[domPrefixes[i] + 'AnimationName'] !== undefined) {
+                pfx = domPrefixes[i];
                 animationstring = pfx + 'AnimationName';
                 keyframeprefix = '-' + pfx.toLowerCase() + '-';
                 isAnimationSupported = true;
@@ -23,56 +25,58 @@ var insertionQ = (function(){
             }
         }
     }
-    
 
-    function listen(selector,callback){
-        var styleAnimation,animationName = 'insQ_'+(sequence++);
 
-            var eventHandler = function(event) {
-                if (event.animationName === animationName || event[animationstring] === animationName) {
-                    if(!isTagged(event.target)){
-                        callback(event.target);
-                    }
+    function listen(selector, callback) {
+        var styleAnimation, animationName = 'insQ_' + (sequence++);
+
+        var eventHandler = function (event) {
+            if (event.animationName === animationName || event[animationstring] === animationName) {
+                if (!isTagged(event.target)) {
+                    callback(event.target);
                 }
-            };
+            }
+        };
 
-            styleAnimation = document.createElement('style');
-            styleAnimation.innerHTML = '@keyframes '+animationName+' {  from {  outline: 1px solid transparent  } to {  outline: 0px solid transparent }  }' +
-            "\n" + '@'+keyframeprefix+'keyframes '+animationName+' {  from {  outline: 1px solid transparent  } to {  outline: 0px solid transparent }  }' +
-            "\n" + selector + ' { animation-duration: 0.001s; animation-name: '+animationName+'; ' +
-            keyframeprefix+'animation-duration: 0.001s; '+keyframeprefix+'animation-name: '+animationName+'; ' +
+        styleAnimation = document.createElement('style');
+        styleAnimation.innerHTML = '@keyframes ' + animationName + ' {  from {  outline: 1px solid transparent  } to {  outline: 0px solid transparent }  }' +
+            "\n" + '@' + keyframeprefix + 'keyframes ' + animationName + ' {  from {  outline: 1px solid transparent  } to {  outline: 0px solid transparent }  }' +
+            "\n" + selector + ' { animation-duration: 0.001s; animation-name: ' + animationName + '; ' +
+            keyframeprefix + 'animation-duration: 0.001s; ' + keyframeprefix + 'animation-name: ' + animationName + '; ' +
             ' } ';
 
-            document.head.appendChild(styleAnimation);
+        document.head.appendChild(styleAnimation);
 
-            var bindAnimationLater = setTimeout(function() {
-                document.addEventListener('animationstart', eventHandler, false);
-                document.addEventListener('MSAnimationStart', eventHandler, false);
-                document.addEventListener('webkitAnimationStart', eventHandler, false);
-                //event support is not consistent with DOM prefixes
-            }, 20); //starts listening later to skip elements found on startup. this might need tweaking
+        var bindAnimationLater = setTimeout(function () {
+            document.addEventListener('animationstart', eventHandler, false);
+            document.addEventListener('MSAnimationStart', eventHandler, false);
+            document.addEventListener('webkitAnimationStart', eventHandler, false);
+            //event support is not consistent with DOM prefixes
+        }, 20); //starts listening later to skip elements found on startup. this might need tweaking
 
-            return {
-                destroy: function() {
-                    clearTimeout(bindAnimationLater);
-                    if(styleAnimation){
-                        document.head.removeChild(styleAnimation);
-                        styleAnimation=null;
-                    }
-                    document.removeEventListener('animationstart', eventHandler);
-                    document.removeEventListener('MSAnimationStart', eventHandler);
-                    document.removeEventListener('webkitAnimationStart', eventHandler);
+        return {
+            destroy: function () {
+                clearTimeout(bindAnimationLater);
+                if (styleAnimation) {
+                    document.head.removeChild(styleAnimation);
+                    styleAnimation = null;
                 }
-            };
+                document.removeEventListener('animationstart', eventHandler);
+                document.removeEventListener('MSAnimationStart', eventHandler);
+                document.removeEventListener('webkitAnimationStart', eventHandler);
+            }
+        };
     }
 
 
     function tag(el) {
         el['-+-'] = true;
     }
+
     function isTagged(el) {
         return (useTags && (el['-+-'] === true));
     }
+
     function topmostUntaggedParent(el) {
         if (isTagged(el.parentNode)) {
             return el;
@@ -80,7 +84,8 @@ var insertionQ = (function(){
             return topmostUntaggedParent(el.parentNode);
         }
     }
-    function tagAll(e){
+
+    function tagAll(e) {
         tag(e);
         e = e.firstChild;
         for (; e; e = e.nextSibling) {
@@ -91,14 +96,14 @@ var insertionQ = (function(){
     }
 
     //aggregates multiple insertion events into a common parent
-    function catchInsertions(selector,callback) {
+    function catchInsertions(selector, callback) {
         var insertions = [];
         //throttle summary
-        var sumUp = (function() {
+        var sumUp = (function () {
             var to;
-            return function() {
+            return function () {
                 clearTimeout(to);
-                to = setTimeout(function() {
+                to = setTimeout(function () {
                     insertions.forEach(tagAll);
                     callback(insertions);
                     insertions = [];
@@ -106,7 +111,7 @@ var insertionQ = (function(){
             };
         })();
 
-        return listen(selector,function(el) {
+        return listen(selector, function (el) {
             if (isTagged(el)) {
                 return;
             }
@@ -119,18 +124,18 @@ var insertionQ = (function(){
         });
     }
 
-    return function(selector,notag){
-        if(isAnimationSupported && selector.match(/[^{}]/)){
-            useTags=(notag)?false:true;
-            if(useTags){
-                tagAll(document.body);//prevents from catching things on show
+    return function (selector, notag) {
+        if (isAnimationSupported && selector.match(/[^{}]/)) {
+            useTags = (notag) ? false : true;
+            if (useTags) {
+                tagAll(document.body); //prevents from catching things on show
             }
             return {
-                every:function(callback){
-                    return listen(selector,callback);
+                every: function (callback) {
+                    return listen(selector, callback);
                 },
-                summary:function(callback){
-                    return catchInsertions(selector,callback);
+                summary: function (callback) {
+                    return catchInsertions(selector, callback);
                 }
             };
         } else {

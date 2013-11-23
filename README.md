@@ -6,9 +6,9 @@ Non-dom-event way to catch nodes showing up. And it uses selectors.
 
 ## Why?
 
-- Because DOM Events slow down the browser
-- Because DOM Mutation Observer has less support than animations
-- Because you can filter events with selectors without performance overhead
+- Because DOM Events slow down the browser and insertionQuery doesn't
+- Because DOM Mutation Observer has less browser support than insertionQuery
+- Because with insertionQuery you can filter DOM changes using selectors without performance overhead
 
 ## Widespread support!
 

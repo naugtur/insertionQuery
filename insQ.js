@@ -1,5 +1,4 @@
-//insertionQuery by naugtur
-//MIT license
+
 var insertionQ = (function(){
 
     var sequence=100,
@@ -35,7 +34,7 @@ var insertionQ = (function(){
                         callback(event.target);
                     }
                 }
-            }
+            };
 
             styleAnimation = document.createElement('style');
             styleAnimation.innerHTML = '@keyframes '+animationName+' {  from {  outline: 1px solid transparent  } to {  outline: 0px solid transparent }  }' +
@@ -137,5 +136,5 @@ var insertionQ = (function(){
         } else {
             return false;
         }
-    }
+    };
 })();

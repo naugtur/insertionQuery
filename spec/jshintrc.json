@@ -1,0 +1,9 @@
+{
+    "es5": true,
+    "globals": {
+        "window": false,
+        "document": false,
+        "setTimeout": false,
+        "clearTimeout": false
+    }
+}

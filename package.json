@@ -1,22 +1,14 @@
 {
-  "name": "insertionQuery",
-  "version": "0.1",
-  "description": "Non-dom-event way to catch nodes showing up. And it uses selectors.",
-  "testling": {
-    "browsers": {
-      "ie": [ 6, 7, 8, 9, 10 ],
-      "ff": [ 12, 13, 14, 15, 16, 17 ],
-      "chrome": [ 20, 21, 22, 23 ],
-      "opera": [ 10, 11, 12 ],
-      "safari": [ 5.1, 6 ],
-      "iphone": [ 6 ],
-      "ipad": [ 6 ]
-      },
-      "files": [ 
-      "spec/taprunner.js"
-      ]
-      },
-      "author": "naugtur <naugtur@gmail.com>",
-      "license": "MIT",
-      "readmeFilename": "README.md"
+    "name": "insertionQuery",
+    "version": "0.2.1",
+    "description": "Non-dom-event way to catch nodes showing up. And it uses selectors.",
+    "author":"naugtur <naugtur@gmail.com> (http://naugtur.pl/)",
+    "license" : "MIT",
+    "dependencies": {},
+    "devDependencies": {
+        "grunt": "~0.4.1",
+        "grunt-contrib-jshint": "~0.2.0",
+        "grunt-contrib-jasmine": "~0.4.0",
+        "grunt-contrib-uglify": "~0.2.6"
     }
+}

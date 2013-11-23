@@ -3,6 +3,19 @@ insertionQuery
 
 Non-dom-event way to catch nodes showing up. And it uses selectors.
 
+
+## Why?
+
+- Because DOM Events slow down the browser
+- Because DOM Mutation Observer has less support than animations
+- Because you can filter events with selectors without performance overhead
+
+## Widespread support!
+
+IE10+ and mostly anything else (including mobile)
+
+Details: http://caniuse.com/#feat=css-animation
+
 ## Basic usage
 
 	insertionQ('selector').every(function(element){

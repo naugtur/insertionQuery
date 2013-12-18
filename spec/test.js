@@ -171,5 +171,24 @@ describe("Insertion Query lib", function() {
                 expect(callback).not.toHaveBeenCalled();
             });
         });
+        
+        
+        it('should react to a disabled input', function() {
+            var callback = jasmine.createSpy('callback');
+            runs(function() {
+                insertionQ('input[type="checkbox"]').every(callback);
+            });
+            waits(20);
+            runs(function() {
+                var el = document.createElement('input');
+                el.type = 'checkbox';
+                el.disabled = true;
+                document.body.appendChild(el);
+            });
+            waits(200);
+            runs(function() {
+                expect(callback).not.toHaveBeenCalled();
+            });
+        });
 
     });

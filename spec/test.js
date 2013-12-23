@@ -172,7 +172,7 @@ describe("Insertion Query lib", function() {
             });
         });
 		
-		it('should react to a disabled input', function() {
+		it('should react to a disabled input insertion', function() {
             var callback = jasmine.createSpy('callback');
             runs(function() {
                 insertionQ('input[type="checkbox"]').every(callback);
@@ -186,7 +186,7 @@ describe("Insertion Query lib", function() {
             });
             waits(200);
             runs(function() {
-                expect(callback).not.toHaveBeenCalled();
+                expect(callback).toHaveBeenCalled();
             });
         });
 

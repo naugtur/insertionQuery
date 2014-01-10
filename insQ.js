@@ -145,7 +145,7 @@ var insertionQ = (function () {
     return function (selector, notag, useTimeout) {
         if (isAnimationSupported && selector.match(/[^{}]/)) {
             useTags = (notag) ? false : true;
-            useTimeout = (typeof(useTimeout) == 'undefined') ? true : useTimeout;
+            useTimeout = (typeof(useTimeout) === 'undefined') ? true : useTimeout;
 
             if (useTags) {
                 tagAll(document.body); //prevents from catching things on show

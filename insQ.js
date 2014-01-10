@@ -50,10 +50,9 @@ var insertionQ = (function () {
             }
         };
 
-        styleAnimation = document.createElement('style');
-        styleAnimation.innerHTML = '@keyframes ' + animationName + ' {  from {  outline: 1px solid transparent  } to {  outline: 0px solid transparent }  }' +
-            "\n" + '@' + keyframeprefix + 'keyframes ' + animationName + ' {  from {  outline: 1px solid transparent  } to {  outline: 0px solid transparent }  }' +
-            "\n" + selector + ' { animation-duration: 0.001s; animation-name: ' + animationName + '; ' +
+       styleAnimation = document.createElement('style');
+        styleAnimation.innerHTML = '@' + keyframeprefix + 'keyframes ' + animationName + ' {  from {  outline: 1px solid transparent  } to {  outline: 0px solid transparent }  }' +
+            "\n" + selector + ' { outline: 1px solid red; animation-duration: 0.001s; animation-name: ' + animationName + '; ' +
             keyframeprefix + 'animation-duration: 0.001s; ' + keyframeprefix + 'animation-name: ' + animationName + '; ' +
             ' } ';
 

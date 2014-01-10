@@ -2,13 +2,16 @@ var insertionQ = (function () {
     "use strict";
 
     var sequence = 100,
-        useTags,
         isAnimationSupported = false,
         animationstring = 'animationName',
         keyframeprefix = '',
         domPrefixes = 'Webkit Moz O ms Khtml'.split(' '),
         pfx = '',
-        elm = document.createElement('div');
+        elm = document.createElement('div'),
+        options = {
+            strictlyNew: true,
+            timeout: 20
+        };
 
     if (elm.style.animationName) {
         isAnimationSupported = true;
@@ -27,20 +30,8 @@ var insertionQ = (function () {
     }
 
 
-    function listen(selector, useTimeout, callback) {
-        var timeout, styleAnimation, animationName = 'insQ_' + (sequence++);
-
-        // Suports two formats: listen(selector, callback) or listen(selector,
-        // useTimeout, callback)
-        if(typeof(useTimeout) === 'function') {
-            callback = useTimeout;
-            useTimeout = void 0;
-        }
-
-        // Default useTimeout value
-        if(typeof(useTimeout) === 'undefined') {
-            useTimeout = true;
-        }
+    function listen(selector, callback) {
+        var styleAnimation, animationName = 'insQ_' + (sequence++);
 
         var eventHandler = function (event) {
             if (event.animationName === animationName || event[animationstring] === animationName) {
@@ -50,7 +41,7 @@ var insertionQ = (function () {
             }
         };
 
-       styleAnimation = document.createElement('style');
+        styleAnimation = document.createElement('style');
         styleAnimation.innerHTML = '@' + keyframeprefix + 'keyframes ' + animationName + ' {  from {  outline: 1px solid transparent  } to {  outline: 0px solid transparent }  }' +
             "\n" + selector + ' { outline: 1px solid red; animation-duration: 0.001s; animation-name: ' + animationName + '; ' +
             keyframeprefix + 'animation-duration: 0.001s; ' + keyframeprefix + 'animation-name: ' + animationName + '; ' +
@@ -58,18 +49,12 @@ var insertionQ = (function () {
 
         document.head.appendChild(styleAnimation);
 
-        if(useTimeout) {
-            timeout = 20;
-        } else {
-            timeout = 0;
-        }
-
         var bindAnimationLater = setTimeout(function () {
             document.addEventListener('animationstart', eventHandler, false);
             document.addEventListener('MSAnimationStart', eventHandler, false);
             document.addEventListener('webkitAnimationStart', eventHandler, false);
             //event support is not consistent with DOM prefixes
-        }, timeout); //starts listening later to skip elements found on startup. this might need tweaking
+        }, options.timeout); //starts listening later to skip elements found on startup. this might need tweaking
 
         return {
             destroy: function () {
@@ -87,11 +72,11 @@ var insertionQ = (function () {
 
 
     function tag(el) {
-        el['-+-'] = true;
+        el.QinsQ = true; //bug in V8 causes memory leaks when weird characters are used as field names. I don't want to risk leaking DOM trees so the key is not '-+-' anymore
     }
 
     function isTagged(el) {
-        return (useTags && (el['-+-'] === true));
+        return (options.strictlyNew && (el.QinsQ === true));
     }
 
     function topmostUntaggedParent(el) {
@@ -141,17 +126,16 @@ var insertionQ = (function () {
         });
     }
 
-    return function (selector, notag, useTimeout) {
+    //insQ function
+    var exports = function (selector) {
         if (isAnimationSupported && selector.match(/[^{}]/)) {
-            useTags = (notag) ? false : true;
-            useTimeout = (typeof(useTimeout) === 'undefined') ? true : useTimeout;
 
-            if (useTags) {
+            if (options.strictlyNew) {
                 tagAll(document.body); //prevents from catching things on show
             }
             return {
                 every: function (callback) {
-                    return listen(selector, useTimeout, callback);
+                    return listen(selector, callback);
                 },
                 summary: function (callback) {
                     return catchInsertions(selector, callback);
@@ -161,4 +145,15 @@ var insertionQ = (function () {
             return false;
         }
     };
+
+    //allows overriding defaults
+    exports.config = function (opt) {
+        for (var o in opt) {
+            if (opt.hasOwnProperty(o)) {
+                options[o] = opt[o];
+            }
+        }
+    };
+
+    return exports;
 })();

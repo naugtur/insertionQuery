@@ -27,8 +27,20 @@ var insertionQ = (function () {
     }
 
 
-    function listen(selector, callback) {
-        var styleAnimation, animationName = 'insQ_' + (sequence++);
+    function listen(selector, useTimeout, callback) {
+        var timeout, styleAnimation, animationName = 'insQ_' + (sequence++);
+
+        // Suports two formats: listen(selector, callback) or listen(selector,
+        // useTimeout, callback)
+        if(typeof(useTimeout) === 'function') {
+            callback = useTimeout;
+            useTimeout = void 0;
+        }
+
+        // Default useTimeout value
+        if(typeof(useTimeout) === 'undefined') {
+            useTimeout = true;
+        }
 
         var eventHandler = function (event) {
             if (event.animationName === animationName || event[animationstring] === animationName) {
@@ -47,12 +59,18 @@ var insertionQ = (function () {
 
         document.head.appendChild(styleAnimation);
 
+        if(useTimeout) {
+            timeout = 20;
+        } else {
+            timeout = 0;
+        }
+
         var bindAnimationLater = setTimeout(function () {
             document.addEventListener('animationstart', eventHandler, false);
             document.addEventListener('MSAnimationStart', eventHandler, false);
             document.addEventListener('webkitAnimationStart', eventHandler, false);
             //event support is not consistent with DOM prefixes
-        }, 20); //starts listening later to skip elements found on startup. this might need tweaking
+        }, timeout); //starts listening later to skip elements found on startup. this might need tweaking
 
         return {
             destroy: function () {
@@ -124,15 +142,17 @@ var insertionQ = (function () {
         });
     }
 
-    return function (selector, notag) {
+    return function (selector, notag, useTimeout) {
         if (isAnimationSupported && selector.match(/[^{}]/)) {
             useTags = (notag) ? false : true;
+            useTimeout = (typeof(useTimeout) == 'undefined') ? true : useTimeout;
+
             if (useTags) {
                 tagAll(document.body); //prevents from catching things on show
             }
             return {
                 every: function (callback) {
-                    return listen(selector, callback);
+                    return listen(selector, useTimeout, callback);
                 },
                 summary: function (callback) {
                     return catchInsertions(selector, callback);

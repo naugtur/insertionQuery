@@ -3,6 +3,7 @@ insertionQuery
 
 Non-dom-event way to catch nodes showing up. And it uses selectors.
 
+**It's not just for wider browser support, It can be better than DOMMutationObserver for certain things.**
 
 ## Why?
 

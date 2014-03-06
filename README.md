@@ -17,6 +17,12 @@ IE10+ and mostly anything else (including mobile)
 
 Details: http://caniuse.com/#feat=css-animation
 
+## Installation
+
+    bower install insertionQuery
+
+or just download the `insQ.min.js` file.
+
 ## Basic usage
 
 	insertionQ('selector').every(function(element){

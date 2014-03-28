@@ -198,13 +198,13 @@ describe("Insertion Query lib", function() {
         it('should react to old elements if strictlyNew is set to false', function() {
             var callback = jasmine.createSpy('callback');
             runs(function() {
-                document.body.appendChild(document.createElement('q'));
+                document.body.appendChild(document.createElement('sn'));
             });
             waits(200);
             runs(function() {
                 expect(callback.calls.length).toEqual(0);
                 insertionQ.config({ strictlyNew: false });
-                insertionQ('q').every(callback);
+                insertionQ('sn').every(callback);
             });
             waits(200);
             runs(function() {

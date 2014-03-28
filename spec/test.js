@@ -8,6 +8,7 @@ describe("Insertion Query lib", function() {
             });
             waits(200);
             runs(function() {
+                expect(callback.calls.length).toEqual(0);
                 document.body.appendChild(document.createElement('blockquote'));
             });
             waits(200); //just to be sure
@@ -27,6 +28,8 @@ describe("Insertion Query lib", function() {
             });
             waits(200);
             runs(function() {
+                expect(callback1.calls.length).toEqual(0);
+                expect(callback2.calls.length).toEqual(0);
                 var el=document.createElement('q');
                 el.id="a";
                 document.body.appendChild(el);
@@ -55,6 +58,7 @@ describe("Insertion Query lib", function() {
             });
             waits(100);
             runs(function() {
+                expect(callback.calls.length).toEqual(0);
                 el.setAttribute('class','someFunnyClass');
             });
             waits(200);
@@ -75,6 +79,7 @@ describe("Insertion Query lib", function() {
             });
             waits(200);
             runs(function() {
+                expect(callback.calls.length).toEqual(0);
                 document.body.appendChild(document.createElement('q'));
             });
             waits(200);
@@ -155,8 +160,8 @@ describe("Insertion Query lib", function() {
             });
 
         });
-        
-        
+
+
         it('should unbind everything when destroyed', function() {
             var callback = jasmine.createSpy('callback');
             runs(function() {
@@ -171,8 +176,8 @@ describe("Insertion Query lib", function() {
                 expect(callback).not.toHaveBeenCalled();
             });
         });
-		
-		it('should react to a disabled input insertion', function() {
+
+        it('should react to a disabled input insertion', function() {
             var callback = jasmine.createSpy('callback');
             runs(function() {
                 insertionQ('input[type="checkbox"]').every(callback);
@@ -190,4 +195,20 @@ describe("Insertion Query lib", function() {
             });
         });
 
-    });
+        it('should react to old elements if strictlyNew is set to false', function() {
+            var callback = jasmine.createSpy('callback');
+            runs(function() {
+                document.body.appendChild(document.createElement('sn'));
+            });
+            waits(200);
+            runs(function() {
+                expect(callback.calls.length).toEqual(0);
+                insertionQ.config({ strictlyNew: false });
+                insertionQ('sn').every(callback);
+            });
+            waits(200);
+            runs(function() {
+                expect(callback.calls.length).toEqual(1);
+            });
+        });
+});

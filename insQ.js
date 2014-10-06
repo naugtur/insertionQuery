@@ -157,3 +157,7 @@ var insertionQ = (function () {
 
     return exports;
 })();
+
+if(module) {
+    module.exports = insertionQ;
+}

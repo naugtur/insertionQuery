@@ -158,6 +158,6 @@ var insertionQ = (function () {
     return exports;
 })();
 
-if(module) {
-    module.exports = insertionQ;
+if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+  module.exports = insertionQ;
 }

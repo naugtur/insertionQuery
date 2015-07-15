@@ -9,6 +9,7 @@
     "mutation observer",
     "browser"
   ],
+  "main":"insQ.js",
   "author": "naugtur <naugtur@gmail.com> (http://naugtur.pl/)",
   "license": "MIT",
   "dependencies": {},

@@ -1,6 +1,6 @@
 {
   "name": "insertion-query",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Non-dom-event way to catch DOM insertions. Works in IE10+ and filters by selectors.",
   "keywords": [
     "DOM",

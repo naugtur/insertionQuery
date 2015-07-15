@@ -20,7 +20,7 @@ Details: http://caniuse.com/#feat=css-animation
 ## Installation
 
     npm install insertion-query
-    
+
 or
 
     bower install insertionQuery
@@ -33,7 +33,7 @@ or just download the `insQ.min.js` file.
 		//callback
 	});
 
-Runs the callback whenever an element matching the selector is created in the document. This means it handles DOM insertions of new nodes. 
+Runs the callback whenever an element matching the selector is created in the document. This means it handles DOM insertions of new nodes.
 
 Changing an existing element to match the selector won't run the callback. Showing an element that was not displayed before won't run the callback. You can disable preventing those situations with configuration option `insertionQ.config({ strictlyNew:false })`, but it's not recommended.
 
@@ -49,7 +49,7 @@ Runs the callback with an array of newly inserted nodes that contain element(s) 
 
 You can change insertionQuery options by calling the config method:
 
-    insertionQ.config({ 
+    insertionQ.config({
         strictlyNew : true,
         timeout : 20
     });

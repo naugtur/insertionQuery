@@ -1,6 +1,6 @@
 {
   "name": "insertion-query",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Non-dom-event way to catch DOM insertions. Works in IE10+ and filters by selectors.",
   "keywords": [
     "DOM",
@@ -9,7 +9,7 @@
     "mutation observer",
     "browser"
   ],
-  "main":"insQ.js",
+  "main": "insQ.js",
   "author": "naugtur <naugtur@gmail.com> (http://naugtur.pl/)",
   "license": "MIT",
   "dependencies": {},

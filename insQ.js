@@ -159,5 +159,5 @@ var insertionQ = (function () {
 })();
 
 if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
-  module.exports = insertionQ;
+    module.exports = insertionQ;
 }

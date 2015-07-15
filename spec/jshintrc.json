@@ -23,6 +23,7 @@
         "window": false,
         "document": false,
         "setTimeout": false,
-        "clearTimeout": false
+        "clearTimeout": false,
+        "module": false
     }
 }

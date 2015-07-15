@@ -2,6 +2,7 @@
     "name": "insertionQuery",
     "version": "1.0.0",
     "description": "Non-dom-event way to catch DOM insertions. Works in IE10+ and filters by selectors.",
+    "keywords":["DOM","dom insertion", "dom events", "mutation observer", "browser"],
     "author":"naugtur <naugtur@gmail.com> (http://naugtur.pl/)",
     "license" : "MIT",
     "dependencies": {},
@@ -10,17 +11,5 @@
         "grunt-contrib-jshint": "^0.2.0",
         "grunt-contrib-jasmine": "^0.4.0",
         "grunt-contrib-uglify": "^0.2.6"
-    },
-    "testling" : {
-        "html" : "index.html",
-        "browsers" : [
-            "ie/9..latest",
-            "chrome/20..latest",
-            "firefox/10..latest",
-            "safari/4..latest",
-            "opera/15..latest",
-            "iphone/6", "ipad/6",
-            "android-browser"
-        ]
     }
 }

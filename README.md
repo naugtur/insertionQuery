@@ -19,6 +19,10 @@ Details: http://caniuse.com/#feat=css-animation
 
 ## Installation
 
+    npm install insertion-query
+    
+or
+
     bower install insertionQuery
 
 or just download the `insQ.min.js` file.

@@ -155,8 +155,8 @@ describe("Insertion Query lib", function() {
             });
 
         });
-        
-        
+
+
         it('should unbind everything when destroyed', function() {
             var callback = jasmine.createSpy('callback');
             runs(function() {
@@ -171,7 +171,7 @@ describe("Insertion Query lib", function() {
                 expect(callback).not.toHaveBeenCalled();
             });
         });
-		
+
 		it('should react to a disabled input insertion', function() {
             var callback = jasmine.createSpy('callback');
             runs(function() {

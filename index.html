@@ -1,30 +1,61 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-	<meta charset="utf-8" >
-	<title>testdriver</title>
-	<link rel="stylesheet" href="http://pivotal.github.io/jasmine/lib/jasmine-1.3.1/jasmine.css"/>
-	<script src="http://pivotal.github.io/jasmine/lib/jasmine-1.3.1/jasmine.js"></script>
-	<script src="http://pivotal.github.io/jasmine/lib/jasmine-1.3.1/jasmine-html.js"></script>
-	<script src="spec/jasmine.tap_reporter.js"></script>
-	
-	<script src="insQ.js"></script>
-	<script src="spec/test.js"></script>
+    <meta charset="utf-8">
+    <title>demo</title>
+
+    <script src="insQ.js"></script>
+    <style>
+        .container span {
+            padding: 5px;
+            font-size: 0;
+            margin: 1px;
+            background: green;
+        }
+
+        .container {
+            overflow: visible;
+        }
+    </style>
 </head>
+
 <body>
 
-	<script>
-	var jasmineEnv = jasmine.getEnv();
-	jasmineEnv.updateInterval = 250;
-	var htmlReporter = new jasmine.HtmlReporter();
-	jasmineEnv.addReporter(htmlReporter);
+    <div class="container">
+        <span></span>
+    </div>
 
-    jasmineEnv.addReporter(new jasmine.TapReporter());
+    <p>Open the console and watch...</p>
+    <button class="js-add">add one</button>
+    <button class="js-spray">add multiple</button>
+    <button class="js-container">add container</button>
+
+    <script>
+        insertionQ("span").summary(function(summary) {
+            console.log(summary)
+        })
+
+        var container = document.querySelector(".container");
+        document.querySelector(".js-add").addEventListener("click", function() {
+            container.appendChild(document.createElement("span"))
+        })
+
+        document.querySelector(".js-spray").addEventListener("click", function() {
+            for (var i = 0; i < 10; i++) {
+                container.appendChild(document.createElement("span"))
+            }
+        })
 
 
-	setTimeout(function(){
-		jasmineEnv.execute();
-	},1000)
-	</script>
+        document.querySelector(".js-container").addEventListener("click", function() {
+            var box = document.createElement("div")
+            box.appendChild(document.createElement("span"))
+            box.appendChild(document.createElement("span"))
+            container.appendChild(box)
+            container.appendChild(document.createElement("span"))
+        })
+    </script>
 </body>
+
 </html>

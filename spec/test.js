@@ -1,23 +1,5 @@
 describe("Insertion Query lib", function() {
 
-    it('should work with strictlyNew set to false', function() {
-        insertionQ.config({
-            strictlyNew: false
-        });
-        var callback = jasmine.createSpy('callback');
-        runs(function() {
-            document.body.appendChild(document.createElement('q'));
-            insertionQ('q').summary(callback);
-        });
-        waits(200);
-        runs(function() {
-            expect(function() {
-                insertionQ.config({
-                    strictlyNew: true
-                });
-            }).not.toThrow()
-        });
-    });
 
     it('should react to an insertion', function() {
         insertionQ.config({
@@ -212,6 +194,33 @@ describe("Insertion Query lib", function() {
         });
     });
 
+    it('should work with strictlyNew set to false', function() {
+        var asyncErrorCaught;
+        var onErrorBackup = window.onerror;
+        window.onerror = function(err) {
+            asyncErrorCaught = err
+        }
+        insertionQ.config({
+            strictlyNew: false
+        });
+        var callback = jasmine.createSpy('callback');
+        runs(function() {
+            document.body.appendChild(document.createElement('q'));
+            insertionQ('q').summary(callback);
+        });
+        waits(200);
+        runs(function() {
+            insertionQ.config({
+                strictlyNew: true
+            });
+        });
+        runs(function() {
+            window.onerror = onErrorBackup
+            if (asyncErrorCaught) {
+                throw asyncErrorCaught
+            }
+        });
+    });
 
 
 });

@@ -1,6 +1,6 @@
 {
   "name": "insertion-query",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Non-dom-event way to catch DOM insertions. Works in IE10+ and filters by selectors.",
   "keywords": [
     "DOM",
@@ -14,7 +14,7 @@
     "url": "https://github.com/naugtur/insertionQuery"
   },
   "author": "Zbyszek Tenerowicz <naugtur@gmail.com> (http://naugtur.pl/)",
-  "main":"insQ.js",
+  "main": "insQ.js",
   "license": "MIT",
   "dependencies": {},
   "devDependencies": {

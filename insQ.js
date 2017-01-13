@@ -80,7 +80,8 @@ var insertionQ = (function () {
     }
 
     function topmostUntaggedParent(el) {
-        if (isTagged(el.parentNode)) {
+        //if (isTagged(el.parentNode)) {
+        if (isTagged(el.parentNode) || el.nodeName === 'BODY') {
             return el;
         } else {
             return topmostUntaggedParent(el.parentNode);

@@ -49,16 +49,23 @@ var insertionQ = (function () {
 
         document.head.appendChild(styleAnimation);
 
-        var bindAnimationLater = setTimeout(function () {
+        if(options.timeout > 0) {
+            var bindAnimationLater = setTimeout(function () {
+                document.addEventListener('animationstart', eventHandler, false);
+                document.addEventListener('MSAnimationStart', eventHandler, false);
+                document.addEventListener('webkitAnimationStart', eventHandler, false);
+                //event support is not consistent with DOM prefixes
+            }, options.timeout); //starts listening later to skip elements found on startup. this might need tweaking
+        }
+        else {
             document.addEventListener('animationstart', eventHandler, false);
             document.addEventListener('MSAnimationStart', eventHandler, false);
             document.addEventListener('webkitAnimationStart', eventHandler, false);
-            //event support is not consistent with DOM prefixes
-        }, options.timeout); //starts listening later to skip elements found on startup. this might need tweaking
+        }
 
         return {
             destroy: function () {
-                clearTimeout(bindAnimationLater);
+                options.timeout > 0 ? clearTimeout(bindAnimationLater) : '';
                 if (styleAnimation) {
                     document.head.removeChild(styleAnimation);
                     styleAnimation = null;

@@ -56,11 +56,11 @@ var insertionQ = (function () {
             document.addEventListener('MSAnimationStart', eventHandler, false);
             document.addEventListener('webkitAnimationStart', eventHandler, false);
         }
-
+        
         if(isTimeoutRequired) {
+            //event support is not consistent with DOM prefixes
             var bindAnimationLater = setTimeout(function () {
                 registerEventListeners();
-                //event support is not consistent with DOM prefixes
             }, options.timeout); //starts listening later to skip elements found on startup. this might need tweaking
         }
         else {

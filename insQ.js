@@ -13,9 +13,8 @@ var insertionQ = (function () {
             timeout: 20
         };
     
-    if( options.timeout > 0 ) {
-        const timeoutRequired = true;
-    }
+    const isTimeoutRequired = (options.timeout > 0);
+
     if (elm.style.animationName) {
         isAnimationSupported = true;
     }
@@ -58,7 +57,7 @@ var insertionQ = (function () {
             document.addEventListener('webkitAnimationStart', eventHandler, false);
         }
 
-        if(timeoutRequired) {
+        if(isTimeoutRequired) {
             var bindAnimationLater = setTimeout(function () {
                 registerEventListeners();
                 //event support is not consistent with DOM prefixes
@@ -70,7 +69,7 @@ var insertionQ = (function () {
 
         return {
             destroy: function () {
-                timeoutRequired ? clearTimeout(bindAnimationLater) : '';
+                isTimeoutRequired && clearTimeout(bindAnimationLater);
                 if (styleAnimation) {
                     document.head.removeChild(styleAnimation);
                     styleAnimation = null;

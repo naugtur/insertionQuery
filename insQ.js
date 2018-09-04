@@ -12,7 +12,10 @@ var insertionQ = (function () {
             strictlyNew: true,
             timeout: 20
         };
-
+    
+    if( options.timeout > 0 ) {
+        const timeoutRequired = true;
+    }
     if (elm.style.animationName) {
         isAnimationSupported = true;
     }
@@ -49,23 +52,25 @@ var insertionQ = (function () {
 
         document.head.appendChild(styleAnimation);
 
-        if(options.timeout > 0) {
-            var bindAnimationLater = setTimeout(function () {
-                document.addEventListener('animationstart', eventHandler, false);
-                document.addEventListener('MSAnimationStart', eventHandler, false);
-                document.addEventListener('webkitAnimationStart', eventHandler, false);
-                //event support is not consistent with DOM prefixes
-            }, options.timeout); //starts listening later to skip elements found on startup. this might need tweaking
-        }
-        else {
+        const registerEventListeners = () => {
             document.addEventListener('animationstart', eventHandler, false);
             document.addEventListener('MSAnimationStart', eventHandler, false);
             document.addEventListener('webkitAnimationStart', eventHandler, false);
         }
+        
+        if(timeoutRequired) {
+            var bindAnimationLater = setTimeout(function () {
+                registerEventListeners();
+                //event support is not consistent with DOM prefixes
+            }, options.timeout); //starts listening later to skip elements found on startup. this might need tweaking
+        }
+        else {
+            registerEventListeners();
+        }
 
         return {
             destroy: function () {
-                options.timeout > 0 ? clearTimeout(bindAnimationLater) : '';
+                timeoutRequired ? clearTimeout(bindAnimationLater) : '';
                 if (styleAnimation) {
                     document.head.removeChild(styleAnimation);
                     styleAnimation = null;
@@ -76,6 +81,8 @@ var insertionQ = (function () {
             }
         };
     }
+
+    function()
 
 
     function tag(el) {

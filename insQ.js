@@ -12,6 +12,10 @@ var insertionQ = (function () {
             strictlyNew: true,
             timeout: 20
         };
+    
+    // determine if timeout is required in order register event listener immediately
+    // after animation is attached
+    const isTimeoutRequired = (options.timeout > 0);
 
     if (elm.style.animationName) {
         isAnimationSupported = true;
@@ -49,16 +53,26 @@ var insertionQ = (function () {
 
         document.head.appendChild(styleAnimation);
 
-        var bindAnimationLater = setTimeout(function () {
+        const registerEventListeners = function() {
             document.addEventListener('animationstart', eventHandler, false);
             document.addEventListener('MSAnimationStart', eventHandler, false);
             document.addEventListener('webkitAnimationStart', eventHandler, false);
+        }
+        
+        if(isTimeoutRequired) {
             //event support is not consistent with DOM prefixes
-        }, options.timeout); //starts listening later to skip elements found on startup. this might need tweaking
+            //starts listening later to skip elements found on startup. this might need tweaking
+            var bindAnimationLater = setTimeout(function () {
+                registerEventListeners();
+            }, options.timeout);
+        }
+        else {
+            registerEventListeners();
+        }
 
         return {
             destroy: function () {
-                clearTimeout(bindAnimationLater);
+                isTimeoutRequired && clearTimeout(bindAnimationLater);
                 if (styleAnimation) {
                     document.head.removeChild(styleAnimation);
                     styleAnimation = null;
@@ -69,7 +83,6 @@ var insertionQ = (function () {
             }
         };
     }
-
 
     function tag(el) {
         el.QinsQ = true; //bug in V8 causes memory leaks when weird characters are used as field names. I don't want to risk leaking DOM trees so the key is not '-+-' anymore

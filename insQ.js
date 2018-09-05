@@ -53,7 +53,7 @@ var insertionQ = (function () {
 
         document.head.appendChild(styleAnimation);
 
-        const registerEventListeners = () => {
+        const registerEventListeners = function() {
             document.addEventListener('animationstart', eventHandler, false);
             document.addEventListener('MSAnimationStart', eventHandler, false);
             document.addEventListener('webkitAnimationStart', eventHandler, false);
@@ -61,9 +61,10 @@ var insertionQ = (function () {
         
         if(isTimeoutRequired) {
             //event support is not consistent with DOM prefixes
+            //starts listening later to skip elements found on startup. this might need tweaking
             var bindAnimationLater = setTimeout(function () {
                 registerEventListeners();
-            }, options.timeout); //starts listening later to skip elements found on startup. this might need tweaking
+            }, options.timeout);
         }
         else {
             registerEventListeners();

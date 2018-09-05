@@ -13,6 +13,8 @@ var insertionQ = (function () {
             timeout: 20
         };
     
+    // determine if timeout is required in order register event listener immediately
+    // after animation is attached
     const isTimeoutRequired = (options.timeout > 0);
 
     if (elm.style.animationName) {

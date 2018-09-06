@@ -10,12 +10,8 @@ var insertionQ = (function () {
         elm = document.createElement('div'),
         options = {
             strictlyNew: true,
-            timeout: 0
+            timeout: 20
         };
-    
-    // determine if timeout is required in order register event listener immediately
-    // after animation is attached
-    const isTimeoutRequired = (options.timeout > 0);
 
     if (elm.style.animationName) {
         isAnimationSupported = true;
@@ -58,7 +54,12 @@ var insertionQ = (function () {
             document.addEventListener('MSAnimationStart', eventHandler, false);
             document.addEventListener('webkitAnimationStart', eventHandler, false);
         }
-        
+
+        // determine if timeout is required in order register event listener immediately
+        // after animation is attached
+        const isTimeoutRequired = function() {
+           return options.timeout > 0; 
+        }
         if(isTimeoutRequired) {
             //event support is not consistent with DOM prefixes
             //starts listening later to skip elements found on startup. this might need tweaking

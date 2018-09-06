@@ -49,7 +49,7 @@ var insertionQ = (function () {
 
         document.head.appendChild(styleAnimation);
 
-        const registerEventListeners = function() {
+        var registerEventListeners = function() {
             document.addEventListener('animationstart', eventHandler, false);
             document.addEventListener('MSAnimationStart', eventHandler, false);
             document.addEventListener('webkitAnimationStart', eventHandler, false);
@@ -57,23 +57,23 @@ var insertionQ = (function () {
 
         // determine if timeout is required in order register event listener immediately
         // after animation is attached
-        const isTimeoutRequired = function() {
+        var isTimeoutRequired = function() {
            return options.timeout > 0; 
         }
+
         if(isTimeoutRequired()) {
             //event support is not consistent with DOM prefixes
             //starts listening later to skip elements found on startup. this might need tweaking
             var bindAnimationLater = setTimeout(function () {
                 registerEventListeners();
             }, options.timeout);
-        }
-        else {
+        } else {
             registerEventListeners();
         }
 
         return {
             destroy: function () {
-                isTimeoutRequired && clearTimeout(bindAnimationLater);
+                isTimeoutRequired() && clearTimeout(bindAnimationLater);
                 if (styleAnimation) {
                     document.head.removeChild(styleAnimation);
                     styleAnimation = null;

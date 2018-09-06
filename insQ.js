@@ -46,9 +46,7 @@ var insertionQ = (function () {
             "\n" + selector + ' { animation-duration: 0.001s; animation-name: ' + animationName + '; ' +
             keyframeprefix + 'animation-duration: 0.001s; ' + keyframeprefix + 'animation-name: ' + animationName + '; ' +
             ' } ';
-
         document.head.appendChild(styleAnimation);
-
         var registerEventListeners = function() {
             document.addEventListener('animationstart', eventHandler, false);
             document.addEventListener('MSAnimationStart', eventHandler, false);

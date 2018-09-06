@@ -10,7 +10,7 @@ var insertionQ = (function () {
         elm = document.createElement('div'),
         options = {
             strictlyNew: true,
-            timeout: 20
+            timeout: 0
         };
     
     // determine if timeout is required in order register event listener immediately

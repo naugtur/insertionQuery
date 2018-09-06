@@ -60,7 +60,7 @@ var insertionQ = (function () {
         const isTimeoutRequired = function() {
            return options.timeout > 0; 
         }
-        if(isTimeoutRequired) {
+        if(isTimeoutRequired()) {
             //event support is not consistent with DOM prefixes
             //starts listening later to skip elements found on startup. this might need tweaking
             var bindAnimationLater = setTimeout(function () {

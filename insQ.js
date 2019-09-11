@@ -88,6 +88,7 @@ var insertionQ = (function () {
     }
 
     function tagAll(e) {
+        if (!e) return;
         tag(e);
         e = e.firstChild;
         for (; e; e = e.nextSibling) {

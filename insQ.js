@@ -43,8 +43,8 @@ var insertionQ = (function () {
 
         styleAnimation = document.createElement('style');
         styleAnimation.innerHTML = '@' + keyframeprefix + 'keyframes ' + animationName + ' {  from {  outline: 1px solid transparent  } to {  outline: 0px solid transparent }  }' +
-            "\n" + selector + ' { animation-duration: 0.001s; animation-name: ' + animationName + '; ' +
-            keyframeprefix + 'animation-duration: 0.001s; ' + keyframeprefix + 'animation-name: ' + animationName + '; ' +
+            "\n" + selector + ' { animation-duration: 0.001s !important; animation-name: ' + animationName + ' !important; ' +
+            keyframeprefix + 'animation-duration: 0.001s !important; ' + keyframeprefix + 'animation-name: ' + animationName + ' !important; ' +
             ' } ';
 
         document.head.appendChild(styleAnimation);

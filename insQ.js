@@ -10,7 +10,8 @@ var insertionQ = (function () {
         elm = document.createElement('div'),
         options = {
             strictlyNew: true,
-            timeout: 20
+            timeout: 20,
+            addImportant: false
         };
 
     if (elm.style.animationName) {
@@ -31,7 +32,9 @@ var insertionQ = (function () {
 
 
     function listen(selector, callback) {
-        var styleAnimation, animationName = 'insQ_' + (sequence++);
+        var styleAnimation,
+            animationName = 'insQ_' + (sequence++),
+            importantRule = options.addImportant ? " !important" : "";
 
         var eventHandler = function (event) {
             if (event.animationName === animationName || event[animationstring] === animationName) {
@@ -43,8 +46,8 @@ var insertionQ = (function () {
 
         styleAnimation = document.createElement('style');
         styleAnimation.innerHTML = '@' + keyframeprefix + 'keyframes ' + animationName + ' {  from {  outline: 1px solid transparent  } to {  outline: 0px solid transparent }  }' +
-            "\n" + selector + ' { animation-duration: 0.001s !important; animation-name: ' + animationName + ' !important; ' +
-            keyframeprefix + 'animation-duration: 0.001s !important; ' + keyframeprefix + 'animation-name: ' + animationName + ' !important; ' +
+            "\n" + selector + ' { animation-duration: 0.001s' + importantRule + '; animation-name: ' + animationName + importantRule + '; ' +
+            keyframeprefix + 'animation-duration: 0.001s' + importantRule + '; ' + keyframeprefix + 'animation-name: ' + animationName + importantRule + '; ' +
             ' } ';
 
         document.head.appendChild(styleAnimation);

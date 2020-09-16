@@ -51,11 +51,13 @@ You can change insertionQuery options by calling the config method:
 
     insertionQ.config({
         strictlyNew : true,
-        timeout : 20
+        timeout : 20,
+        addImportant: false
     });
 
 - `strictlyNew` Keep track of nodes that existed at the moment of defining a new insertionQuery. Defaults to `true`.
 - `timeout` Time in miliseconds to wait before insertionQuery starts listening to events. If DOM already contained elements matching the selector, animation events will be triggered and there's some latency. Defaults to `20`. 20ms was safe in testing, you can change it to 0 if you know what you're doing. (or if you don't mind getting events from existing nodes matching the selector)
+- `addImportant` - Specifies whether to add !important to animation declarations. Defaults to `false`.
 
 ## Technical notes:
 

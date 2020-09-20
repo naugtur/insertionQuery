@@ -30,6 +30,9 @@ var insertionQ = (function () {
         }
     }
 
+    function isTagged(el) {
+        return (options.strictlyNew && (el.QinsQ === true));
+    }
 
     function listen(selector, callback) {
         var styleAnimation,
@@ -76,10 +79,6 @@ var insertionQ = (function () {
 
     function tag(el) {
         el.QinsQ = true; //bug in V8 causes memory leaks when weird characters are used as field names. I don't want to risk leaking DOM trees so the key is not '-+-' anymore
-    }
-
-    function isTagged(el) {
-        return (options.strictlyNew && (el.QinsQ === true));
     }
 
     function topmostUntaggedParent(el) {

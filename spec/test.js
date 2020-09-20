@@ -1,148 +1,108 @@
-describe("Insertion Query lib", function() {
+function waits(time) {
+    return new Promise((resolve) => setTimeout(resolve, time))
+}
+
+describe("Insertion Query lib", function () {
 
 
-    it('should react to an insertion', function() {
+    it('should react to an insertion', async function () {
         insertionQ.config({
             strictlyNew: true
         });
         var callback = jasmine.createSpy('callback');
-        runs(function() {
-            insertionQ('blockquote').every(callback);
-        });
-        waits(200);
-        runs(function() {
-            document.body.appendChild(document.createElement('blockquote'));
-        });
-        waits(200); //just to be sure
-        runs(function() {
-            expect(callback.calls.length).toEqual(1);
-        });
+        insertionQ('blockquote').every(callback);
+        await waits(200);
+        document.body.appendChild(document.createElement('blockquote'));
+        await waits(200); //just to be sure
+        console.log(callback)
+        expect(callback.calls.count()).toEqual(1);
 
     });
 
 
-    it('should call the callbacks for two selectors accordingly', function() {
+    it('should call the callbacks for two selectors accordingly', async function () {
         var callback1 = jasmine.createSpy('callback'),
             callback2 = jasmine.createSpy('callback');
-        runs(function() {
-            insertionQ('#a').every(callback1);
+        insertionQ('#a').every(callback1);
             insertionQ('#b').every(callback2);
-        });
-        waits(200);
-        runs(function() {
-            var el = document.createElement('q');
+        await waits(200);
+        var el = document.createElement('q');
             el.id = "a";
             document.body.appendChild(el);
             el = document.createElement('q');
             el.id = "b";
             document.body.appendChild(el);
-        });
-        waits(200); //just to be sure
-        runs(function() {
-            expect(callback1.calls.length).toEqual(1);
-            expect(callback2.calls.length).toEqual(1);
-        });
+        await waits(200); //just to be sure
+        expect(callback1.calls.count()).toEqual(1);
+            expect(callback2.calls.count()).toEqual(1);
 
     });
 
-    it('should react to a change that causes the element to match the selector', function() {
+    it('should react to a change that causes the element to match the selector', async function () {
         var callback = jasmine.createSpy('callback'),
             el;
-        runs(function() {
-            insertionQ('q.someFunnyClass').every(callback);
-        });
-        waits(200);
-        runs(function() {
-            el = document.createElement('q');
+        insertionQ('q.someFunnyClass').every(callback);
+        await waits(200);
+        el = document.createElement('q');
             document.body.appendChild(el);
-        });
-        waits(100);
-        runs(function() {
-            el.setAttribute('class', 'someFunnyClass');
-        });
-        waits(200);
-        runs(function() {
-            expect(callback.calls.length).toEqual(1);
-        });
+        await waits(100);
+        el.setAttribute('class', 'someFunnyClass');
+        await waits(200);
+        expect(callback.calls.count()).toEqual(1);
 
     });
 
-    it('should not react to old elements', function() {
+    it('should not react to old elements', async function () {
         var callback = jasmine.createSpy('callback');
-        runs(function() {
-            document.body.appendChild(document.createElement('q'));
-        });
-        waits(200);
-        runs(function() {
-            insertionQ('q').every(callback);
-        });
-        waits(200);
-        runs(function() {
-            document.body.appendChild(document.createElement('q'));
-        });
-        waits(200);
-        runs(function() {
-            expect(callback.calls.length).toEqual(1);
-        });
+        document.body.appendChild(document.createElement('q'));
+        await waits(200);
+        insertionQ('q').every(callback);
+        await waits(200);
+        document.body.appendChild(document.createElement('q'));
+        await waits(200);
+        expect(callback.calls.count()).toEqual(1);
 
     });
-    it('should NOT react to old elements getting displayed just now (happened in webkit)', function() {
+    it('should NOT react to old elements getting displayed just now (happened in webkit)', async function () {
         var callback = jasmine.createSpy('callback'),
             el = document.createElement('q');
-        runs(function() {
-            el.style.display = 'none';
+        el.style.display = 'none';
             document.body.appendChild(el);
-        });
-        waits(200);
-        runs(function() {
-            insertionQ('q').every(function() {
+        await waits(200);
+        insertionQ('q').every(function () {
                 console.log('call');
                 callback();
             });
-        });
-        waits(200);
-        runs(function() {
-            el.style.display = 'inline';
-        });
-        waits(400);
-        runs(function() {
-            expect(callback.calls.length).toEqual(0);
-        });
+        await waits(200);
+        el.style.display = 'inline';
+        await waits(200);
+        expect(callback.calls.count()).toEqual(0);
 
     });
 
-    it('should pass the newly added node to the callback function', function() {
+    it('should pass the newly added node to the callback function', async function () {
         var el = document.createElement('q'),
             resultNode;
-        runs(function() {
-            insertionQ('q').every(function(node) {
+        insertionQ('q').every(function (node) {
                 resultNode = node;
             });
-        });
-        waits(200);
-        runs(function() {
-            document.body.appendChild(el);
-        });
-        waits(400);
-        runs(function() {
-            expect(resultNode).toBe(el);
-        });
+        await waits(200);
+        document.body.appendChild(el);
+        await waits(200);
+        expect(resultNode).toBe(el);
 
     });
 
 
-    it('should call one summary callback for two nodes with common parent', function() {
+    it('should call one summary callback for two nodes with common parent', async function () {
         var nodeArray,
             callback1 = jasmine.createSpy('callback1');
-        runs(function() {
-            insertionQ('q').summary(function(a) {
+        insertionQ('q').summary(function (a) {
                 nodeArray = a;
                 callback1();
             });
-        });
-        waits(200);
-        runs(function() {
-            var wrap = document.createElement('div'),
+        await waits(200);
+        var wrap = document.createElement('div'),
                 el = document.createElement('q');
             el.id = "z";
             wrap.appendChild(el);
@@ -150,76 +110,55 @@ describe("Insertion Query lib", function() {
             el.id = "x";
             wrap.appendChild(el);
             document.body.appendChild(wrap);
-        });
-        waits(500); //just to be sure
-        runs(function() {
-            expect(callback1.calls.length).toEqual(1);
+        await waits(500); //just to be sure
+        expect(callback1.calls.count()).toEqual(1);
             expect(nodeArray.length).toEqual(1);
             expect(nodeArray[0].nodeName).toBe('DIV');
-        });
 
     });
 
 
-    it('should unbind everything when destroyed', function() {
+    it('should unbind everything when destroyed', async function () {
         var callback = jasmine.createSpy('callback');
-        runs(function() {
-            insertionQ('q').every(callback).destroy();
-        });
-        waits(20);
-        runs(function() {
-            document.body.appendChild(document.createElement('q'));
-        });
-        waits(200);
-        runs(function() {
-            expect(callback).not.toHaveBeenCalled();
-        });
+        insertionQ('q').every(callback).destroy();
+        await waits(20);
+        document.body.appendChild(document.createElement('q'));
+        await waits(200);
+        expect(callback).not.toHaveBeenCalled();
     });
 
-    it('should react to a disabled input insertion', function() {
+    it('should react to a disabled input insertion', async function () {
         var callback = jasmine.createSpy('callback');
-        runs(function() {
-            insertionQ('input[type="checkbox"]').every(callback);
-        });
-        waits(20);
-        runs(function() {
-            var el = document.createElement('input');
+        insertionQ('input[type="checkbox"]').every(callback);
+        await waits(20);
+        var el = document.createElement('input');
             el.type = 'checkbox';
             el.disabled = true;
             document.body.appendChild(el);
-        });
-        waits(200);
-        runs(function() {
-            expect(callback).toHaveBeenCalled();
-        });
+        await waits(200);
+        expect(callback).toHaveBeenCalled();
     });
 
-    it('should work with strictlyNew set to false', function() {
+    it('should work with strictlyNew set to false', async function () {
         var asyncErrorCaught;
         var onErrorBackup = window.onerror;
-        window.onerror = function(err) {
+        window.onerror = function (err) {
             asyncErrorCaught = err
         }
         insertionQ.config({
             strictlyNew: false
         });
         var callback = jasmine.createSpy('callback');
-        runs(function() {
-            document.body.appendChild(document.createElement('q'));
+        document.body.appendChild(document.createElement('q'));
             insertionQ('q').summary(callback);
-        });
-        waits(200);
-        runs(function() {
-            insertionQ.config({
+        await waits(200);
+        insertionQ.config({
                 strictlyNew: true
             });
-        });
-        runs(function() {
-            window.onerror = onErrorBackup
+        window.onerror = onErrorBackup
             if (asyncErrorCaught) {
                 throw asyncErrorCaught
             }
-        });
     });
 
 
